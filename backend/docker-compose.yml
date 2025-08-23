@@ -4,9 +4,9 @@ services:
   postgres:
     image: postgres:15
     environment:
-      POSTGRES_USER: username
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: vocabulary_flashcard
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
       - "5432:5432"
     volumes:
@@ -21,12 +21,14 @@ services:
     depends_on:
       - postgres
     environment:
-      DATABASE_URL: postgresql://username:password@postgres:5432/vocabulary_flashcard
+      DATABASE_URL: ${DATABASE_URL}
     volumes:
       - .:/app
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
     networks:
       - vocabulary-network
+    env_file:
+      - .env
 
 networks:
   vocabulary-network:
