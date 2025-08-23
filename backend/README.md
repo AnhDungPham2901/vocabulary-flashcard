@@ -49,9 +49,7 @@ backend/
 └── .env.example               # Environment template
 ```
 
-## Development Setup
-
-### Using Docker (Recommended)
+## Quick Start
 
 1. Navigate to the backend directory:
    ```bash
@@ -63,21 +61,47 @@ backend/
    cp .env.example .env
    ```
 
-3. Start the services:
+3. Start the application with Docker Compose:
    ```bash
-   docker-compose up -d
+   docker-compose up
    ```
 
 4. The API will be available at `http://localhost:8000`
 
-### Manual Setup
+That's it! Docker Compose will automatically:
+- Build the backend container
+- Start PostgreSQL database
+- Run database migrations
+- Start the FastAPI server
+
+## Development
+
+### Viewing Logs
+```bash
+docker-compose logs -f backend
+```
+
+### Rebuilding After Code Changes
+```bash
+docker-compose up --build
+```
+
+### Stopping Services
+```bash
+docker-compose down
+```
+
+### Alternative: Manual Setup (Without Docker)
+
+If you prefer to run without Docker:
 
 1. Install PostgreSQL and create a database named `vocabulary_flashcard`
 
 2. Create a virtual environment:
    ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   python3 -m venv venv
+   source venv/bin/activate  # On Unix/macOS
+   venv\Scripts\activate     # On Windows
    ```
 
 3. Install dependencies:
@@ -85,11 +109,7 @@ backend/
    pip install -r requirements.txt
    ```
 
-4. Configure environment variables:
-   ```bash
-   cp .env.example .env
-   # Edit .env with your database credentials
-   ```
+4. Configure environment variables in `.env` file
 
 5. Run database migrations:
    ```bash
