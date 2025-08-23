@@ -3,10 +3,10 @@ from typing import Optional
 
 
 class Settings(BaseSettings):
-    database_url: str = "postgresql://danielpham:12345@localhost:5432/vocabulary_flashcard"
-    postgres_user: str = "danielpham"
-    postgres_password: str = "12345"
-    postgres_db: str = "vocabulary_flashcard"
+    database_url: str
+    postgres_user: str
+    postgres_password: str
+    postgres_db: str
     postgres_host: str = "localhost"
     postgres_port: int = 5432
     
