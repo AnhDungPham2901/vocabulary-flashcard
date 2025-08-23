@@ -4,6 +4,10 @@ from sqlalchemy import pool
 from alembic import context
 import os
 import sys
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Add the project root to the path
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
@@ -55,14 +59,19 @@ def run_migrations_offline() -> None:
 
 
 def run_migrations_online() -> None:
-    """Run migrations in 'online' mode.
+    """Run migrations in 'online' mode."""
 
-    In this scenario we need to create an Engine
-    and associate a connection with the context.
+    # Get the database URL from environment variable
+    database_url = os.getenv('DATABASE_URL')
+    if not database_url:
+        raise ValueError("DATABASE_URL environment variable not set")
 
-    """
+    # Set the database URL in the configuration
+    configuration = config.get_section(config.config_ini_section)
+    configuration['sqlalchemy.url'] = database_url
+
     connectable = engine_from_config(
-        config.get_section(config.config_ini_section, {}),
+        configuration,
         prefix="sqlalchemy.",
         poolclass=pool.NullPool,
     )
