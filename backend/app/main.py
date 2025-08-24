@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from sqlalchemy import text
 from fastapi.middleware.cors import CORSMiddleware
 from app.api.flashcards import router as flashcards_router
 from contextlib import asynccontextmanager
@@ -46,7 +47,7 @@ def health_check():
     try:
         from app.core.database import SessionLocal
         db = SessionLocal()
-        db.execute("SELECT 1")
+        db.execute(text("SELECT 1"))
         db.close()
         return {"status": "healthy", "database": "connected"}
     except Exception as e:
