@@ -13,6 +13,10 @@ def create_flashcard(
     flashcard: FlashcardCreate,
     db: Session = Depends(get_db)
 ):
+    # Validation: ensure box is always 1 at creation
+    if flashcard.box != 1:
+        raise HTTPException(status_code=400, detail="New flashcards must start in box 1")
+    
     return crud.create_flashcard(db=db, flashcard=flashcard)
 
 
@@ -36,15 +40,30 @@ def read_flashcard(
     return db_flashcard
 
 
+@router.get("/{flashcard_id}/edit", response_model=FlashcardResponse)
+def get_flashcard_for_edit(
+    flashcard_id: int,
+    db: Session = Depends(get_db)
+):
+    """Get flashcard data for editing - use this to populate the update form"""
+    db_flashcard = crud.get_flashcard(db, flashcard_id=flashcard_id)
+    if db_flashcard is None:
+        raise HTTPException(status_code=404, detail="Flashcard not found")
+    return db_flashcard
+
+
 @router.put("/{flashcard_id}", response_model=FlashcardResponse)
 def update_flashcard(
     flashcard_id: int,
     flashcard: FlashcardUpdate,
     db: Session = Depends(get_db)
 ):
-    db_flashcard = crud.update_flashcard(db, flashcard_id=flashcard_id, flashcard=flashcard)
-    if db_flashcard is None:
+    # Load existing flashcard to verify it exists
+    existing_flashcard = crud.get_flashcard(db, flashcard_id=flashcard_id)
+    if existing_flashcard is None:
         raise HTTPException(status_code=404, detail="Flashcard not found")
+    
+    db_flashcard = crud.update_flashcard(db, flashcard_id=flashcard_id, flashcard=flashcard)
     return db_flashcard
 
 

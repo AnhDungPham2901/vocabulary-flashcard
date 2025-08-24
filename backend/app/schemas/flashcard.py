@@ -1,32 +1,31 @@
-from pydantic import BaseModel
-from datetime import datetime
+from pydantic import BaseModel, Field
+from datetime import datetime, date
 from typing import Optional
 
 
 class FlashcardBase(BaseModel):
     word: str
     definition: str
-    pronunciation: Optional[str] = None
-    example_sentence: Optional[str] = None
-    difficulty_level: int = 1
-    is_active: bool = True
+    example_sentence: str
 
 
 class FlashcardCreate(FlashcardBase):
-    pass
+    box: int = Field(default=1, description="Always starts at box 1")
+    next_review_date: Optional[date] = None
 
 
 class FlashcardUpdate(BaseModel):
     word: Optional[str] = None
     definition: Optional[str] = None
-    pronunciation: Optional[str] = None
     example_sentence: Optional[str] = None
-    difficulty_level: Optional[int] = None
-    is_active: Optional[bool] = None
+    box: Optional[int] = None
+    next_review_date: Optional[date] = None
 
 
 class FlashcardResponse(FlashcardBase):
     id: int
+    box: int
+    next_review_date: Optional[date] = None
     created_at: datetime
     updated_at: Optional[datetime] = None
 
