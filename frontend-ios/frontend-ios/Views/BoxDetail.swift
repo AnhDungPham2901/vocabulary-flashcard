@@ -129,6 +129,3 @@ struct WordRowView: View {
 #Preview {
     BoxDetail(boxData: BoxData(number: 1, wordCount: 15, color: .red, title: "Review Daily"))
 }
-#Preview {
-    BoxDetail(boxData: BoxData(number: 1, wordCount: 15, color: .red, title: "Review Daily"))
-}

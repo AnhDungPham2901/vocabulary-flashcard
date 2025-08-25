@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct FlashcardModel {
+struct FlashcardData {
     let id: Int
     let word: String
     let definition: String
@@ -16,8 +16,8 @@ struct FlashcardModel {
 }
 
 struct FlashcardFrontView: View {
-    let flashcard: FlashcardModel
-    
+    let flashcard: FlashcardData
+
     var body: some View {
         VStack(spacing: 16) {
             Text("Word")
@@ -35,8 +35,8 @@ struct FlashcardFrontView: View {
 }
 
 struct FlashcardBackView: View {
-    let flashcard: FlashcardModel
-    
+    let flashcard: FlashcardData
+
     var body: some View {
         VStack(spacing: 20) {
             VStack(spacing: 8) {
@@ -76,7 +76,7 @@ struct FlashcardBackView: View {
 }
 
 struct FlashcardTapView: View {
-    let flashcard: FlashcardModel
+  let flashcard: FlashcardData
     @Binding var isFlipped: Bool
     
     var body: some View {
@@ -127,7 +127,7 @@ struct FlashcardTapView: View {
 }
 
 struct FlashcardView: View {
-    let flashcard: FlashcardModel
+    let flashcard: FlashcardData
     @State private var isFlipped = false
     @State private var dragOffset = CGSize.zero
     @State private var rotationAngle: Double = 0
@@ -203,7 +203,7 @@ struct FlashcardView: View {
 
 #Preview {
     FlashcardView(
-        flashcard: FlashcardModel(
+      flashcard: FlashcardData(
             id: 1,
             word: "Serendipity",
             definition: "The occurrence and development of events by chance in a happy or beneficial way",

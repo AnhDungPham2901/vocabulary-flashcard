@@ -25,7 +25,7 @@ struct Review: View {
         ReviewBoxData(number: 6, wordCount: 1, color: .purple)
     ]
     
-    @State private var currentFlashcard = FlashcardModel(
+    @State private var currentFlashcard = FlashcardData(
         id: 1,
         word: "Serendipity",
         definition: "The occurrence and development of events by chance in a happy or beneficial way",
