@@ -42,64 +42,77 @@ struct TaskList: View {
         Task(id: 3, name: "Give an example", status: .pending),
     ]
     
+    @State private var showDoTask = false
+    
     var body: some View {
-        VStack(spacing: 0) {
-            // Header
-            HStack {
-                Text("Daily Tasks")
-                    .font(.title2)
-                    .fontWeight(.bold)
-                    .foregroundColor(.primary)
-                
-                Spacer()
-            }
-            .padding(.horizontal, 20)
-            .padding(.top, 20)
-            .padding(.bottom, 16)
-            
-            Divider()
-                .background(Color.gray.opacity(0.3))
-            
-            // Task List
-            ScrollView {
-                LazyVStack(spacing: 12) {
-                    ForEach(tasks, id: \.id) { task in
-                        TaskRow(task: task)
-                    }
+        NavigationView {
+            VStack(spacing: 0) {
+                // Header
+                HStack {
+                    Text("Daily Tasks")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .foregroundColor(.primary)
+                    
+                    Spacer()
                 }
                 .padding(.horizontal, 20)
-                .padding(.vertical, 16)
-            }
-            
-            // Progress Summary
-            VStack(spacing: 12) {
+                .padding(.top, 20)
+                .padding(.bottom, 16)
+                
                 Divider()
                     .background(Color.gray.opacity(0.3))
                 
-                HStack(spacing: 20) {
-                    TaskSummaryItem(
-                        count: tasks.filter { $0.status == .passed }.count,
-                        label: "Passed",
-                        color: .green
-                    )
-                    
-                    TaskSummaryItem(
-                        count: tasks.filter { $0.status == .failed }.count,
-                        label: "Failed",
-                        color: .red
-                    )
-                    
-                    TaskSummaryItem(
-                        count: tasks.filter { $0.status == .pending }.count,
-                        label: "Pending",
-                        color: .orange
-                    )
+                // Task List
+                ScrollView {
+                    LazyVStack(spacing: 12) {
+                        ForEach(tasks, id: \.id) { task in
+                            Button(action: {
+                                showDoTask = true
+                            }) {
+                                TaskRow(task: task)
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                        }
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 16)
                 }
-                .padding(.horizontal, 20)
-                .padding(.bottom, 20)
+                
+                // Progress Summary
+                VStack(spacing: 12) {
+                    Divider()
+                        .background(Color.gray.opacity(0.3))
+                    
+                    HStack(spacing: 20) {
+                        TaskSummaryItem(
+                            count: tasks.filter { $0.status == .passed }.count,
+                            label: "Passed",
+                            color: .green
+                        )
+                        
+                        TaskSummaryItem(
+                            count: tasks.filter { $0.status == .failed }.count,
+                            label: "Failed",
+                            color: .red
+                        )
+                        
+                        TaskSummaryItem(
+                            count: tasks.filter { $0.status == .pending }.count,
+                            label: "Pending",
+                            color: .orange
+                        )
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 20)
+                }
+            }
+            .background(Color(.systemBackground))
+            .fullScreenCover(isPresented: $showDoTask) {
+                DoTask()
             }
         }
-        .background(Color(.systemBackground))
+        .navigationBarHidden(true)
     }
 }
 

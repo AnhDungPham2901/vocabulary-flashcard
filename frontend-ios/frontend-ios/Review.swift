@@ -98,18 +98,6 @@ struct Review: View {
                 }
                 .padding(.bottom, 40)
             }
-            .background(
-                LinearGradient(
-                    gradient: Gradient(colors: [
-                        Color(.systemBackground),
-                        Color(.secondarySystemBackground)
-                    ]),
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-                .ignoresSafeArea()
-            )
-            .navigationBarHidden(true)
             .sheet(isPresented: $showTaskList) {
                 TaskList()
                     .presentationDetents([.medium, .large])

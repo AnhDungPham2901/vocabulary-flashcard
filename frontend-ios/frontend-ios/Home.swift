@@ -129,52 +129,52 @@ struct BoxView: View {
     let box: BoxData
     
     var body: some View {
-        VStack(spacing: 12) {
-            // Box icon and number
-            ZStack {
-                Circle()
-                    .fill(box.color.opacity(0.2))
-                    .frame(width: 50, height: 50)
+        NavigationLink(destination: BoxDetail(boxData: box)) {
+            VStack(spacing: 12) {
+                // Box icon and number
+                ZStack {
+                    Circle()
+                        .fill(box.color.opacity(0.2))
+                        .frame(width: 50, height: 50)
+                    
+                    Text("\(box.number)")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .foregroundColor(box.color)
+                }
                 
-                Text("\(box.number)")
-                    .font(.title2)
-                    .fontWeight(.bold)
-                    .foregroundColor(box.color)
-            }
-            
-            // Box title
-            Text(box.title)
-                .font(.headline)
-                .fontWeight(.semibold)
-                .foregroundColor(.primary)
-                .multilineTextAlignment(.center)
-                .lineLimit(2)
-            
-            // Word count with icon
-            HStack(spacing: 4) {
-                Image(systemName: "doc.text")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
+                // Box title
+                Text(box.title)
+                    .font(.headline)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.primary)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
                 
-                Text("\(box.wordCount) words")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
+                // Word count with icon
+                HStack(spacing: 4) {
+                    Image(systemName: "doc.text")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    
+                    Text("\(box.wordCount) words")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
             }
+            .frame(maxWidth: .infinity)
+            .frame(height: 120)
+            .background(
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(Color(.systemBackground))
+                    .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 16)
+                    .stroke(box.color.opacity(0.3), lineWidth: 1)
+            )
         }
-        .frame(maxWidth: .infinity)
-        .frame(height: 120)
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(Color(.systemBackground))
-                .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-        )
-        .overlay(
-            RoundedRectangle(cornerRadius: 16)
-                .stroke(box.color.opacity(0.3), lineWidth: 1)
-        )
-        .onTapGesture {
-            print("Box \(box.number) tapped")
-        }
+        .buttonStyle(PlainButtonStyle())
     }
 }
 
