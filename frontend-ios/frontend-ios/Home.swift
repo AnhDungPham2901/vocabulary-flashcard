@@ -24,6 +24,8 @@ struct Home: View {
         BoxData(number: 6, wordCount: 1, color: .purple, title: "Review Bi-Monthly")
     ]
     
+    @State private var showAddFlashCard = false
+    
     var body: some View {
         NavigationView {
             ZStack {
@@ -62,10 +64,7 @@ struct Home: View {
                     Spacer()
                     
                     // Start Review Button
-                    Button(action: {
-                        // Handle start review
-                        print("Start Review tapped")
-                    }) {
+                    NavigationLink(destination: Review()) {
                         HStack(spacing: 12) {
                             Image(systemName: "brain.head.profile")
                                 .font(.title2)
@@ -88,37 +87,40 @@ struct Home: View {
                     }
                     .padding(.horizontal, 20)
                     
-                    // Add Button
+                    // Large Circular Add Button
                     Button(action: {
-                        // Handle add new card
-                        print("Add new card tapped")
+                        showAddFlashCard = true
                     }) {
-                        HStack(spacing: 12) {
-                            Image(systemName: "plus")
-                                .font(.title2)
-                            Text("Add New Card")
-                                .font(.title3)
-                                .fontWeight(.semibold)
-                        }
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 56)
-                        .background(
-                            LinearGradient(
-                                gradient: Gradient(colors: [.green, .mint]),
-                                startPoint: .leading,
-                                endPoint: .trailing
+                        Image(systemName: "plus")
+                            .font(.system(size: 32, weight: .bold))
+                            .foregroundColor(.white)
+                            .frame(width: 80, height: 80)
+                            .background(
+                                Circle()
+                                    .fill(
+                                        LinearGradient(
+                                            gradient: Gradient(colors: [.green, .mint]),
+                                            startPoint: .topLeading,
+                                            endPoint: .bottomTrailing
+                                        )
+                                    )
                             )
-                        )
-                        .cornerRadius(16)
-                        .shadow(color: .green.opacity(0.3), radius: 8, x: 0, y: 4)
+                            .shadow(color: .green.opacity(0.4), radius: 15, x: 0, y: 8)
+                            .overlay(
+                                Circle()
+                                    .stroke(Color.white.opacity(0.3), lineWidth: 2)
+                            )
                     }
-                    .padding(.horizontal, 20)
+                    .scaleEffect(1.0)
+                    .animation(.spring(response: 0.4, dampingFraction: 0.6), value: showAddFlashCard)
                     
                     Spacer()
                 }
             }
             .navigationBarHidden(true)
+            .fullScreenCover(isPresented: $showAddFlashCard) {
+                AddFlashCard()
+            }
         }
     }
 }

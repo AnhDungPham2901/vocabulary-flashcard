@@ -11,7 +11,7 @@ import SwiftUI
 struct frontend_iosApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            Home()
         }
     }
 }
