@@ -65,6 +65,14 @@ struct AddFlashCard: View {
 
       Spacer(minLength: 100)
     }
+    .onTapGesture {
+      // Dismiss keyboard when tapping outside text fields
+      UIApplication.shared.sendAction(
+        #selector(UIResponder.resignFirstResponder),
+        to: nil,
+        from: nil,
+        for: nil)
+    }
     // want to split with the form and fix position at bottom
     .overlay(
       // Action Buttons
